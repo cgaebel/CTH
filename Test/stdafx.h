@@ -7,4 +7,3 @@
 
 #include <cstdlib>
 #include <cstdio>
-#include <list>
