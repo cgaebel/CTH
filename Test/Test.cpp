@@ -1,6 +1,9 @@
 #include "stdafx.h"
+
 #include "Test.h"
 #include "TestContext.h"
+
+#include "Timer.h"
 
 using namespace std;
 using namespace Concurrency;
@@ -42,12 +45,17 @@ namespace Test
 		return returnCode;
 	}
 
-	static void PrintSummary(const vector<DefaultTestContext>& tests, int returnCode)
+	static void PrintSummary(
+		const vector<DefaultTestContext>& tests,
+		int returnCode,
+		long lengthOfTest)
 	{
 		if(returnCode == 0)
 			printf("%d unit tests passed.", tests.size());
 		else
 			printf("%d unit tests failed.", returnCode);
+
+		printf("\nTest time: %i ms.", lengthOfTest);
 	}
 
 	static vector<DefaultTestContext> tests;
@@ -64,11 +72,12 @@ namespace Test
 
 	int TEST_API RunAllTests()
 	{
-		RunTestsInParallel(tests);
+		long lengthOfTest = TimeFunction([](){ RunTestsInParallel(tests); });
+
 		for_each(tests.begin(), tests.end(), PrintAllFailures);
 
 		int returnCode = GetReturnCode(tests);
-		PrintSummary(tests, returnCode);
+		PrintSummary(tests, returnCode, lengthOfTest);
 		return GetReturnCode(tests);
 	}
 }
