@@ -39,3 +39,15 @@ TEST(FloatingPointComparisons)
 	CHECK_CLOSE(3.14, 3.1, 0.1);
 	ASSERT_CLOSE(3.141, 3.14, 0.01);
 }
+
+TEST(Pointers)
+{
+	void* null = nullptr;
+	void* notNull = (void*)1;
+
+	CHECK_NULL(null);
+	ASSERT_NULL(null);
+
+	CHECK_VALID(notNull);
+	ASSERT_VALID(notNull);
+}
