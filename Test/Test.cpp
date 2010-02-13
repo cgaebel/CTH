@@ -13,11 +13,10 @@ namespace Test
 	static void RunTestsInParallel(vector<DefaultTestContext>& list)
 	{
 		parallel_for_each(list.begin(), list.end(),
-			[](DefaultTestContext& currentTest)
-			{
-				currentTest.testFunction(currentTest);
-			}
-		);
+		[](DefaultTestContext& currentTest)
+		{
+			currentTest.testFunction(currentTest);
+		});
 	}
 
 	static void PrintAllFailures(const DefaultTestContext& test)
