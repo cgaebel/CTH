@@ -17,9 +17,7 @@
       <Filter>pch</Filter>
     </ClInclude>
     <ClInclude Include="TestContext.h" />
-    <ClInclude Include="Timer.h">
-      <Filter>include</Filter>
-    </ClInclude>
+    <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestContext.cpp" />
