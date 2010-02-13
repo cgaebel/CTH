@@ -319,7 +319,7 @@ namespace Test
 
 	class TEST_API TestContext
 	{
-	private:
+	public:
 		const char* testName;
 		const char* fileName;
 		int lineNumber;

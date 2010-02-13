@@ -7,3 +7,7 @@
 
 #include <cstdlib>
 #include <cstdio>
+#include <algorithm>
+#include <vector>
+
+#include <ppl.h>
