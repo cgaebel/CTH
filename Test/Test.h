@@ -12,27 +12,11 @@
 #define TEST_API __declspec(dllimport)
 #endif
 
-/*
-	TO IMPLEMENT:
-	
-		CHECK_ARRAY_EQUAL
-		ASSERT_ARRAY_EQUAL
-
-		CHECK_ARRAY_CLOSE
-		ASSERT_ARRAY_CLOSE
-
-		CHECK_ARRAY2D_EQUAL
-		ASSERT_ARRAY2D_EQUAL
-
-		CHECK_ARRAY2D_CLOSE
-		ASSERT_ARRAY2D_CLOSE
-*/
-
 namespace Test
 {
 	#define TEST(TestName)													\
 		static void Test__TestName(const Test::TestContext&);				\
-		static int placeholder__TestName = Test::AddToGlobalTestList(		\
+		static const int placeholder__TestName = Test::AddToGlobalTestList(	\
 			#TestName, __FILE__, __LINE__, Test__TestName);					\
 		static void Test__TestName(const Test::TestContext& __testContext)
 
@@ -325,6 +309,12 @@ namespace Test
 		const char* fileName;
 		const char* message;
 		int lineNumber;
+
+		inline Failure()
+		{
+		}
+
+		Failure(const char* fileName, const char* message, const int lineNumber);
 	};
 
 	class TEST_API TestContext
@@ -332,15 +322,23 @@ namespace Test
 	private:
 		const char* testName;
 		const char* fileName;
-		const int lineNumber;
+		int lineNumber;
 		void (*testFunction)(const TestContext&);
 
 		Utilities::LinkedList<Failure> failures;
 
 	public:
-		TestContext(const char* testName, const char* fileName, const int lineNumber);
-		TestContext(const TestContext& other);
+		inline TestContext()
+		{
+		}
 
+		TestContext(
+			const char* testName, 
+			const char* fileName,
+			const int lineNumber,
+			void (*testFunction)(const TestContext&));
+
+		TestContext(const TestContext& other);
 		TestContext& operator=(const TestContext& other);
 
 		void AddFailure(const char* fileName, int lineNumber, const char* message);
@@ -350,8 +348,7 @@ namespace Test
 		const char* testName,
 		const char* fileName,
 		int lineNumber,
-		void (__cdecl* testFunction)(const ::Test::TestContext&)
-	);
+		void (__cdecl* testFunction)(const ::Test::TestContext&));
 
 	int TEST_API RunAllTests();
 }
