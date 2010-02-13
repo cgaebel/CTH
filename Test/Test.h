@@ -15,12 +15,6 @@
 /*
 	TO IMPLEMENT:
 	
-		CHECK_NULL
-		ASSERT_NULL
-
-		CHECK_NOT_NULL
-		ASSERT_NOT_NULL
-
 		CHECK_ARRAY_EQUAL
 		ASSERT_ARRAY_EQUAL
 
@@ -104,6 +98,40 @@ namespace Test
 			__testContext.AddFailure(__FILE__, __LINE__,				\
 				"Expected \"" expected "\" +/- " tolerance				\
 				" but was \"" actual "\".");							\
+			return;														\
+		}																\
+	} 0
+
+	#define CHECK_NULL(pointer)											\
+	{																	\
+		if((pointer) != nullptr)										\
+			__testContext.AddFailure(__FILE__, __LINE__,				\
+				"\"" #pointer "\" is not NULL.");						\
+	} 0
+
+	#define ASSERT_NULL(pointer)										\
+	{																	\
+		if((pointer) != nullptr)										\
+		{																\
+			__testContext.AddFailure(__FILE__, __LINE__,				\
+				"\"" #pointer "\" is not NULL.");						\
+				return;													\
+		}																\
+	} 0
+
+	#define CHECK_VALID(pointer)										\
+	{																	\
+		if((pointer) == nullptr)										\
+			__testContext.AddFailure(__FILE__, __LINE__,				\
+				"\"" #pointer "\" is NULL.");							\
+	} 0
+
+	#define ASSERT_VALID(pointer)										\
+	{																	\
+		if((pointer) == nullptr)										\
+		{ 																\
+			__testContext.AddFailure(__FILE__, __LINE__,				\
+				"\"" #pointer "\" is NULL.");							\
 			return;														\
 		}																\
 	} 0
