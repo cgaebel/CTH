@@ -1,4 +1,5 @@
 
+*.exe
 *.lib
 *.exp
 *.dll
