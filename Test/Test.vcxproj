@@ -76,6 +76,7 @@
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Test.h" />
+    <ClInclude Include="TestContext.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Failure.cpp" />
@@ -85,6 +86,7 @@
     </ClCompile>
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="TestContext.cpp" />
+    <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

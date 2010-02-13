@@ -1,11 +1,4 @@
 #pragma once
-
-// The following ifdef block is the standard way of creating macros which make exporting 
-// from a DLL simpler. All files within this DLL are compiled with the TEST_EXPORTS
-// symbol defined on the command line. This symbol should not be defined on any project
-// that uses this DLL. This way any other project whose source files include this file see 
-// TEST_API functions as being imported from a DLL, whereas this DLL sees symbols
-// defined with this macro as being exported.
 #ifdef TEST_EXPORTS
 #define TEST_API __declspec(dllexport)
 #else
@@ -14,287 +7,174 @@
 
 namespace Test
 {
-	#define TEST(TestName)													\
-		static void Test__TestName(const Test::TestContext&);				\
-		static const int placeholder__TestName = Test::AddToGlobalTestList(	\
-			#TestName, __FILE__, __LINE__, Test__TestName);					\
-		static void Test__TestName(const Test::TestContext& __testContext)
+	namespace EnvironmentSanityCheck
+	{
+		#ifdef TEST
+			#error "Test redefines TEST"
+		#endif
 
-	#define CHECK_TRUE(condition)										\
-	{																	\
-		if((condition) == false)										\
-			__testContext.AddFailure(__FILE__, __LINE__, #condition);	\
-	} 0
+		#ifdef CHECK_TRUE
+			#error "Test redefines CHECK_TRUE"
+		#endif
 
-	#define ASSERT_TRUE(condition)										\
-	{																	\
-		if((condition) == false)										\
-		{																\
-			__testContext.AddFailure(__FILE__, __LINE__, #condition);	\
-			return;														\
-		}																\
-	} 0
+		#ifdef ASSERT_TRUE
+			#error "Test redefines ASSERT_TRUE"
+		#endif
 
-	#define CHECK_FALSE(condition)										\
-	{																	\
-		if((condition) == true)											\
-			__testContext.AddFailure(__FILE__, __LINE__, #condition);	\
-	} 0
+		#ifdef CHECK_FALSE
+			#error "Test redefines CHECK_FALSE"
+		#endif
 
-	#define ASSERT_FALSE(condition)										\
-	{																	\
-		if((condition) == true)											\
-		{																\
-			__testContext.AddFailure(__FILE__, __LINE__, #condition);	\
-			return;														\
-		}																\
-	} 0
+		#ifdef ASSERT_FALSE
+			#error "Test redefines ASSERT_FALSE"
+		#endif
 
-	#define CHECK_EQUAL(expected, actual)								\
-	{																	\
-		if((expected) != (actual))										\
-			__testContext.AddFailure(__FILE__, __LINE__,				\
-				"Expected \"" expected "\" but was \"" actual "\".");	\
-	} 0
+		#ifdef CHECK_EQUAL
+			#error "Test redefines CHECK_EQUAL"
+		#endif
 
-	#define ASSERT_EQUAL(expected, actual)								\
-	{																	\
-		if((expected) != (actual))										\
-		{																\
-			__testContext.AddFailure(__FILE__, __LINE__,				\
-				"Expected \"" expected "\" but was \"" actual "\".");	\
-			return;														\
-		}																\
-	} 0
+		#ifdef ASSERT_EQUAL
+			#error "Test redefines ASSERT_EQUAL"
+		#endif
 
-	#define CHECK_CLOSE(expected, actual, tolerance)					\
-	{																	\
-		if(!::Test::Utilities::AreClose(expected, actual, tolerance))	\
-			__testContext.AddFailure(__FILE__, __LINE__,				\
-				"Expected \"" expected "\" +/- " tolerance				\
-				" but was \"" actual "\".");							\
-	} 0
+		#ifdef CHECK_CLOSE
+			#error "Test redefines CHECK_CLOSE"
+		#endif
 
-	#define ASSERT_CLOSE(expected, actual, tolerance)					\
-	{																	\
-		if(!::Test::Utilities::AreClose(expected, actual, tolerance))	\
-		{																\
-			__testContext.AddFailure(__FILE__, __LINE__,				\
-				"Expected \"" expected "\" +/- " tolerance				\
-				" but was \"" actual "\".");							\
-			return;														\
-		}																\
-	} 0
+		#ifdef ASSERT_CLOSE
+			#error "Test redefines ASSERT_CLOSE"
+		#endif
 
-	#define CHECK_NULL(pointer)											\
-	{																	\
-		if((pointer) != nullptr)										\
-			__testContext.AddFailure(__FILE__, __LINE__,				\
-				"\"" #pointer "\" is not NULL.");						\
-	} 0
+		#ifdef CHECK_NULL
+			#error "Test redefines CHECK_NULL"
+		#endif
 
-	#define ASSERT_NULL(pointer)										\
-	{																	\
-		if((pointer) != nullptr)										\
-		{																\
-			__testContext.AddFailure(__FILE__, __LINE__,				\
-				"\"" #pointer "\" is not NULL.");						\
-				return;													\
-		}																\
-	} 0
+		#ifdef ASSERT_NULL
+			#error "Test redefines ASSERT_NULL"
+		#endif
 
-	#define CHECK_VALID(pointer)										\
-	{																	\
-		if((pointer) == nullptr)										\
-			__testContext.AddFailure(__FILE__, __LINE__,				\
-				"\"" #pointer "\" is NULL.");							\
-	} 0
+		#ifdef CHECK_VALID
+			#error "Test redefines CHECK_VALID"
+		#endif
 
-	#define ASSERT_VALID(pointer)										\
-	{																	\
-		if((pointer) == nullptr)										\
-		{ 																\
-			__testContext.AddFailure(__FILE__, __LINE__,				\
-				"\"" #pointer "\" is NULL.");							\
-			return;														\
-		}																\
-	} 0
+		#ifdef ASSERT_VALID
+			#error "Test redefines ASSERT_VALID"
+		#endif
+	}
+
+	#define TEST(TestName)														\
+		static void Test__##TestName(::Test::TestContext&);						\
+		static const int placeholder__##TestName = ::Test::AddToGlobalTestList(	\
+			#TestName, __FILE__, __LINE__, Test__##TestName);					\
+		static void Test__##TestName(::Test::TestContext& __testContext)
+
+	namespace ChecksAndAsserts
+	{
+		#define CHECK_TRUE(condition)										\
+		{																	\
+			if((condition) == false)										\
+				__testContext.AddFailure(__LINE__, #condition);				\
+		} 0
+
+		#define ASSERT_TRUE(condition)										\
+		{																	\
+			if((condition) == false)										\
+			{																\
+				__testContext.AddFailure(__LINE__, #condition);				\
+				return;														\
+			}																\
+		} 0
+
+		#define CHECK_FALSE(condition)										\
+		{																	\
+			if((condition) == true)											\
+				__testContext.AddFailure(__LINE__, #condition);				\
+		} 0
+
+		#define ASSERT_FALSE(condition)										\
+		{																	\
+			if((condition) == true)											\
+			{																\
+				__testContext.AddFailure(__LINE__, #condition);	\
+				return;														\
+			}																\
+		} 0
+
+		#define CHECK_EQUAL(expected, actual)								\
+		{																	\
+			if(!::Test::Utilities::AreEqual(expected, actual))				\
+				__testContext.AddFailure(__LINE__,							\
+					"Expected \"" #expected "\" but was \"" #actual "\".");	\
+		} 0
+
+		#define ASSERT_EQUAL(expected, actual)								\
+		{																	\
+			if(!::Test::Utilities::AreEqual(expected, actual))				\
+			{																\
+				__testContext.AddFailure(__LINE__,							\
+					"Expected \"" #expected "\" but was \"" #actual "\".");	\
+				return;														\
+			}																\
+		} 0
+
+		#define CHECK_CLOSE(expected, actual, tolerance)					\
+		{																	\
+			if(!::Test::Utilities::AreClose(expected, actual, tolerance))	\
+				__testContext.AddFailure(__LINE__,							\
+					"Expected \"" #expected "\" +/- " #tolerance			\
+					" but was \"" #actual "\".");							\
+		} 0
+
+		#define ASSERT_CLOSE(expected, actual, tolerance)					\
+		{																	\
+			if(!::Test::Utilities::AreClose(expected, actual, tolerance))	\
+			{																\
+				__testContext.AddFailure(__LINE__,							\
+					"Expected \"" #expected "\" +/- " #tolerance			\
+					" but was \"" #actual "\".");							\
+				return;														\
+			}																\
+		} 0
+
+		#define CHECK_NULL(pointer)											\
+		{																	\
+			if((pointer) != nullptr)										\
+				__testContext.AddFailure(__LINE__,							\
+					"\"" #pointer "\" is not NULL.");						\
+		} 0
+
+		#define ASSERT_NULL(pointer)										\
+		{																	\
+			if((pointer) != nullptr)										\
+			{																\
+				__testContext.AddFailure(__LINE__,							\
+					"\"" #pointer "\" is not NULL.");						\
+					return;													\
+			}																\
+		} 0
+
+		#define CHECK_VALID(pointer)										\
+		{																	\
+			if((pointer) == nullptr)										\
+				__testContext.AddFailure(__LINE__,							\
+					"\"" #pointer "\" is NULL.");							\
+		} 0
+
+		#define ASSERT_VALID(pointer)										\
+		{																	\
+			if((pointer) == nullptr)										\
+			{ 																\
+				__testContext.AddFailure(__LINE__,							\
+					"\"" #pointer "\" is NULL.");							\
+				return;														\
+			}																\
+		} 0
+	}
 
 	namespace Utilities
 	{
-		template <typename _T>
-		class TEST_API LinkedList
-		{
-		private:
-			struct TEST_API Node
-			{
-				_T data;
-				Node* next;
-
-				Node() { }
-
-				explicit Node(const _T& newData)
-				{
-					data = newData;
-				}
-			};
-
-			Node* sentinel;
-
-		public:
-			class TEST_API iterator
-			{
-			private:
-				Node* me;
-
-			public:
-				explicit iterator(Node* node)
-				{
-					me = node;
-				}
-
-				bool operator==(const iterator& other) const
-				{
-
-					return me->next == other.me->next;
-				}
-
-				bool operator!=(const iterator& other) const
-				{
-					return !(*this == other);
-				}
-
-				iterator& operator++()
-				{
-					me = me->next;
-					return *this;
-				}
-
-				iterator operator++(int)
-				{
-					iterator preIncrement = *this;
-					++*this;
-					return preIncrement;
-				}
-
-				_T operator*() const
-				{
-					return me->data;
-				}
-
-				_T* operator->() const
-				{
-					return &(me->data);
-				}
-			};
-
-		private:
-			void Link(Node* left, Node* newNode, Node* right)
-			{
-				left->next = newNode;
-				newNode->next = right;
-			}
-
-			void RemoveFromParentList(Node* previousElement, Node* toRemove)
-			{
-				previousElement->next = toRemove->next;
-				delete toRemove;
-			}
-
-		public:
-			LinkedList()
-			{
-				sentinel = new Node;
-				sentinel->next = sentinel;
-			}
-
-			LinkedList(const LinkedList& other)
-			{
-				sentinel = new Node;
-				sentinel->next = sentinel;
-
-				for(iterator i = other.begin(); i != other.end(); ++i)
-					Push(*i);
-			}
-
-			void Push(const _T& toAdd)
-			{
-				Link(sentinel, new Node(toAdd), sentinel->next);
-			}
-
-			_T Pop()
-			{
-				_T removed = sentinel->next->data;
-				RemoveFromParentList(sentinel, sentinel->next);
-
-				return removed;
-			}
-
-			iterator begin() const
-			{
-				return iterator(sentinel->next);
-			}
-
-			iterator end() const
-			{
-				return iterator(sentinel);
-			}
-
-			unsigned int size() const
-			{
-				unsigned int count = 0;
-
-				for(iterator i = begin(); i != end(); ++i)
-					++count;
-
-				return count;
-			}
-
-			bool empty() const
-			{
-				// To check this in O(1), we directly check
-				// the pointers for the base case instead of
-				// using the cleaner "return size() == 0;"
-				// which would run in O(n).
-				return sentinel->next == sentinel;
-			}
-
-			// Return if the element was found.
-			bool remove(const _T& toRemove)
-			{
-				// A little hack was used here to prevent deletion
-				// of an element we need the next pointer of.
-				// Instead of using "current" as an iterator, we
-				// use the element directly before it.
-				for(
-					Node* previous = sentinel;
-					previous->next != sentinel;
-					previous = previous->next
-				)
-				{
-					Node* current = previous->next;
-
-					if(current->data == toRemove)
-					{
-						RemoveFromParentList(previous, current);
-						return true;
-					}
-				}
-
-				return false;
-			}
-
-			~LinkedList()
-			{
-				while(!empty())
-					Pop();
-
-				delete sentinel;
-			}
-		};
-
 		template <typename FloatType>
-		bool AreClose(
+		inline bool AreClose(
 			FloatType expected,
 			FloatType actual,
 			FloatType tolerance)
@@ -302,11 +182,30 @@ namespace Test
 			return (actual >= (expected - tolerance))
 				&& (actual <= (expected + tolerance));
 		}
+
+		template <typename DataType>
+		inline bool AreEqual(DataType expected, DataType actual)
+		{
+			return expected == actual;
+		}
+
+		int TEST_API my_strcmp(const char* str1, const char* str2);
+
+		template <>
+		inline bool AreEqual(char* expected, char* actual)
+		{
+			return my_strcmp(expected, actual) == 0;
+		}
+
+		template <>
+		inline bool AreEqual(const char* expected, const char* actual)
+		{
+			return my_strcmp(expected, actual) == 0;
+		}
 	}
 
 	struct TEST_API Failure
 	{
-		const char* fileName;
 		const char* message;
 		int lineNumber;
 
@@ -314,41 +213,20 @@ namespace Test
 		{
 		}
 
-		Failure(const char* fileName, const char* message, const int lineNumber);
+		Failure(const char* message, const int lineNumber);
 	};
 
 	class TEST_API TestContext
 	{
 	public:
-		const char* testName;
-		const char* fileName;
-		int lineNumber;
-		void (*testFunction)(const TestContext&);
-
-		Utilities::LinkedList<Failure> failures;
-
-	public:
-		inline TestContext()
-		{
-		}
-
-		TestContext(
-			const char* testName, 
-			const char* fileName,
-			const int lineNumber,
-			void (*testFunction)(const TestContext&));
-
-		TestContext(const TestContext& other);
-		TestContext& operator=(const TestContext& other);
-
-		void AddFailure(const char* fileName, int lineNumber, const char* message);
+		virtual void AddFailure(int lineNumber, const char* message) = 0;
 	};
 
-	int TEST_API AddToGlobalTestList(
+	const int TEST_API AddToGlobalTestList(
 		const char* testName,
 		const char* fileName,
 		int lineNumber,
-		void (__cdecl* testFunction)(const ::Test::TestContext&));
+		void (*testFunction)(TestContext&));
 
 	int TEST_API RunAllTests();
 }

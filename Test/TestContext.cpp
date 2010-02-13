@@ -1,13 +1,14 @@
 #include "stdafx.h"
 #include "Test.h"
+#include "TestContext.h"
 
 namespace Test
 {
-	TestContext::TestContext(
+	DefaultTestContext::DefaultTestContext(
 		const char* _testName,
 		const char* _fileName,
 		const int _lineNumber,
-		void (*_testFunction)(const TestContext&))
+		void (*_testFunction)(TestContext&))
 	{
 		testName = _testName;
 		fileName = _fileName;
@@ -15,7 +16,7 @@ namespace Test
 		testFunction = _testFunction;
 	}
 
-	TestContext::TestContext(const TestContext& other)
+	DefaultTestContext::DefaultTestContext(const DefaultTestContext& other)
 	{
 		testName = other.testName;
 		fileName = other.fileName;
@@ -23,7 +24,7 @@ namespace Test
 		testFunction = other.testFunction;
 	}
 
-	TestContext& TestContext::operator=(const TestContext& other)
+	DefaultTestContext& DefaultTestContext::operator=(const DefaultTestContext& other)
 	{
 		testName = other.testName;
 		fileName = other.fileName;
@@ -33,8 +34,8 @@ namespace Test
 		return *this;
 	}
 
-	void TestContext::AddFailure(const char* fileName, int lineNumber, const char* message)
+	void DefaultTestContext::AddFailure(int lineNumber, const char* message)
 	{
-		failures.Push(Failure(fileName, message, lineNumber));
+		failures.push_back(Failure(message, lineNumber));
 	}
 }

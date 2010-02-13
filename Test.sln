@@ -3,6 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Test", "Test\Test.vcxproj", "{4593C6D0-9530-4216-85C3-2CD9AADA7D0C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Meta", "Meta\Meta.vcxproj", "{AECE6E21-6C85-4484-A431-B5A1E11D8447}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4593C6D0-9530-4216-85C3-2CD9AADA7D0C} = {4593C6D0-9530-4216-85C3-2CD9AADA7D0C}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -13,6 +18,10 @@ Global
 		{4593C6D0-9530-4216-85C3-2CD9AADA7D0C}.Debug|x64.Build.0 = Debug|x64
 		{4593C6D0-9530-4216-85C3-2CD9AADA7D0C}.Release|x64.ActiveCfg = Release|x64
 		{4593C6D0-9530-4216-85C3-2CD9AADA7D0C}.Release|x64.Build.0 = Release|x64
+		{AECE6E21-6C85-4484-A431-B5A1E11D8447}.Debug|x64.ActiveCfg = Debug|x64
+		{AECE6E21-6C85-4484-A431-B5A1E11D8447}.Debug|x64.Build.0 = Debug|x64
+		{AECE6E21-6C85-4484-A431-B5A1E11D8447}.Release|x64.ActiveCfg = Release|x64
+		{AECE6E21-6C85-4484-A431-B5A1E11D8447}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -16,6 +16,9 @@
     <ClInclude Include="stdafx.h">
       <Filter>pch</Filter>
     </ClInclude>
+    <ClInclude Include="TestContext.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestContext.cpp" />
@@ -24,5 +27,6 @@
       <Filter>pch</Filter>
     </ClCompile>
     <ClCompile Include="Test.cpp" />
+    <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
 </Project>

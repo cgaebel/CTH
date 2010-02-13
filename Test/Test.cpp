@@ -1,62 +1,74 @@
 #include "stdafx.h"
 #include "Test.h"
+#include "TestContext.h"
 
 using namespace std;
 using namespace Concurrency;
 
 namespace Test
 {
-	static vector<TestContext> ConvertListToVector(const Utilities::LinkedList<TestContext>& list)
-	{
-		vector<TestContext> retVal;
-
-		for(auto i = list.begin(); i != list.end(); ++i)
-			retVal.push_back(*i);
-
-		return retVal;
-	}
-
-	static void RunTestsInParallel(vector<TestContext>& list)
+	static void RunTestsInParallel(vector<DefaultTestContext>& list)
 	{
 		parallel_for_each(list.begin(), list.end(),
-			[](TestContext& currentTest)
+			[](DefaultTestContext& currentTest)
 			{
 				currentTest.testFunction(currentTest);
 			}
 		);
 	}
 
-	static void PrintAllFailures(const TestContext& test)
+	static void PrintAllFailures(const DefaultTestContext& test)
 	{
 		for(auto i = test.failures.begin(); i != test.failures.end(); ++i)
 		{
 			printf(
 				"%s(%d): error: Failure in %s: %s\n",
-				i->fileName, i->lineNumber,
+				test.fileName, i->lineNumber,
 				test.testName, i->message);
 		}
 	}
 
-	static Utilities::LinkedList<TestContext> allTests;
-
-	int RunAllTests()
+	static int GetReturnCode(const vector<DefaultTestContext>& tests)
 	{
-		vector<TestContext> tests = ConvertListToVector(allTests);
-		RunTestsInParallel(tests);
-		
-		for_each(tests.begin(), tests.end(), PrintAllFailures);
+		int returnCode = 0;
 
-		return 0;
+		for_each(tests.begin(), tests.end(),
+			[&returnCode](const DefaultTestContext& test)
+			{
+				if(!test.failures.empty())
+					++returnCode;
+			});
+
+		return returnCode;
 	}
 
-	int AddToGlobalTestList(
+	static void PrintSummary(const vector<DefaultTestContext>& tests, int returnCode)
+	{
+		if(returnCode == 0)
+			printf("%d unit tests passed.", tests.size());
+		else
+			printf("%d unit tests failed.", returnCode);
+	}
+
+	static vector<DefaultTestContext> tests;
+
+	const int TEST_API AddToGlobalTestList(
 		const char* testName,
 		const char* fileName,
 		int lineNumber,
-		void (__cdecl* testFunction)(const ::Test::TestContext&))
+		void (*testFunction)(TestContext&))
 	{
-		allTests.Push(TestContext(testName, fileName, lineNumber, testFunction));
+		tests.push_back(DefaultTestContext(testName, fileName, lineNumber, testFunction));
 		return 0;
 	}
 
+	int TEST_API RunAllTests()
+	{
+		RunTestsInParallel(tests);
+		for_each(tests.begin(), tests.end(), PrintAllFailures);
+
+		int returnCode = GetReturnCode(tests);
+		PrintSummary(tests, returnCode);
+		return GetReturnCode(tests);
+	}
 }
