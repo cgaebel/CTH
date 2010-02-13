@@ -2,7 +2,7 @@
 #include <ctime>
 
 // Takes a functor to execute, and returns how long it took
-// to return in milliseconds.
+// to return in milliseconds. Profiling gold!
 template <typename LambdaType>
 long TimeFunction(const LambdaType& functor)
 {
