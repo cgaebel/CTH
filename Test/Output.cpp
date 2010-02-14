@@ -5,12 +5,12 @@ using namespace std;
 
 namespace Test
 {
-	static size_t GetNumberOfTests(const CompleteTestList& tests)
+	static size_t GetNumberOfTests(const OuterTestList& tests)
 	{
 		size_t count = 0;
 
 		for_each(tests.begin(), tests.end(),
-		[&count](const pair<string, list<DefaultTestContext>>& testList)
+		[&count](const pair<string, InnerTestList>& testList)
 		{
 			count += testList.second.size();
 		});
@@ -40,18 +40,19 @@ namespace Test
 	}
 
 	void PrintSummary(
-		const CompleteTestList& tests,
+		const OuterTestList& tests,
 		size_t returnCode,
 		long lengthOfTest)
 	{
 		if(returnCode == 0)
 		{
 			size_t numberOfTests = GetNumberOfTests(tests);
-
 			printf("%d unit %s passed.", numberOfTests, GetPluralOfTestIfNecessary(numberOfTests));
 		}
 		else
+		{
 			printf("%d unit %s failed.", returnCode, GetPluralOfTestIfNecessary(returnCode));
+		}
 
 		printf("\nTest time: %i ms.", lengthOfTest);
 	}

@@ -24,12 +24,8 @@
     <ClInclude Include="Failure.h" />
     <ClInclude Include="Utilities.h" />
     <ClInclude Include="Output.h" />
-    <ClInclude Include="Types.h">
-      <Filter>include</Filter>
-    </ClInclude>
-    <ClInclude Include="TestRunner.h">
-      <Filter>include</Filter>
-    </ClInclude>
+    <ClInclude Include="TestRunner.h" />
+    <ClInclude Include="Types.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestContext.cpp" />

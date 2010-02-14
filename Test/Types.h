@@ -4,7 +4,6 @@
 
 namespace Test
 {
-	typedef stdext::hash_map<
-			std::string, std::list<DefaultTestContext>
-		> CompleteTestList;
+	typedef std::list<DefaultTestContext> InnerTestList;
+	typedef stdext::hash_map<std::string, InnerTestList> OuterTestList;
 }

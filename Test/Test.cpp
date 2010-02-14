@@ -11,7 +11,11 @@
 
 namespace Test
 {
-	static CompleteTestList tests;
+	// ALERT!!! GLOBAL VARIABLE SPOTTED!
+	// Actually, this is our only one. This little sucker represents the
+	// global test list that all tests are registered in to. In this case,
+	// I think a global variable is appropriate.
+	static OuterTestList tests;
 
 	const int TEST_API AddToGlobalTestList(
 		const char* testName,

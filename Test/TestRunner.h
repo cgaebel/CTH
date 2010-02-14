@@ -3,5 +3,5 @@
 
 namespace Test
 {
-	void RunTestsInParallel(CompleteTestList& testList);
+	void RunTestsInParallel(OuterTestList& testList);
 }

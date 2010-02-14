@@ -7,16 +7,18 @@ using namespace Concurrency;
 
 namespace Test
 {
-	void RunTestsInParallel(CompleteTestList& testList)
+	static void RunTest(DefaultTestContext& toRun)
 	{
-		parallel_for_each(testList.begin(), testList.end(),
-		[](pair<string, list<DefaultTestContext>> currentTestList)
-		{
-			for_each(currentTestList.second.begin(), currentTestList.second.end(),
-			[](DefaultTestContext& currentTest)
-			{
-				currentTest.testFunction(currentTest);
-			});
-		});
+		toRun.testFunction(toRun);
+	}
+
+	static void RunMappedTests(pair<const string, InnerTestList>& tests)
+	{
+		for_each(tests.second.begin(), tests.second.end(), RunTest);
+	}
+	
+	void RunTestsInParallel(OuterTestList& testList)
+	{
+		parallel_for_each(testList.begin(), testList.end(), RunMappedTests);
 	}
 }

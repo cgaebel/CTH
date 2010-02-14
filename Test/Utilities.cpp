@@ -3,7 +3,7 @@
 
 namespace Test
 {
-	int GetNumberOfFailedTests(const CompleteTestList& tests)
+	int GetNumberOfFailedTests(const OuterTestList& tests)
 	{
 		int returnCode = 0;
 

@@ -188,6 +188,12 @@ namespace Test
 		{
 			return expected == actual;
 		}
+
+		template <>
+		bool TEST_API AreEqual(const char* expected, const char* actual);
+
+		template <>
+		bool TEST_API AreEqual(char* expected, char* actual);
 	}
 
 	class TestContext abstract

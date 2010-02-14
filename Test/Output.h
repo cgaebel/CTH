@@ -4,5 +4,5 @@
 namespace Test
 {
 	void PrintAllFailures(const DefaultTestContext& test);
-	void PrintSummary(const CompleteTestList& tests, size_t returnCode, long lengthOfTest);
+	void PrintSummary(const OuterTestList& tests, size_t returnCode, long lengthOfTest);
 }

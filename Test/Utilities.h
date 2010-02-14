@@ -7,12 +7,12 @@ namespace Test
 {
 	// The lambda must take a DefaultTestContext& as a parameter.
 	template <typename LambdaType>
-	void for_each_test(CompleteTestList& testList, LambdaType functor)
+	void for_each_test(OuterTestList& testList, LambdaType functor)
 	{
 		using namespace std;
 
 		for_each(testList.begin(), testList.end(),
-		[&functor](pair<string, list<DefaultTestContext>> currentTestList)
+		[&functor](pair<const string, InnerTestList>& currentTestList)
 		{
 			using namespace std;
 
@@ -28,12 +28,12 @@ namespace Test
 
 	// The lambda must take a const DefaultTestContext& as a parameter.
 	template <typename LambdaType>
-	void for_each_test(const CompleteTestList& testList, LambdaType functor)
+	void for_each_test(const OuterTestList& testList, LambdaType functor)
 	{
 		using namespace std;
 
 		for_each(testList.begin(), testList.end(),
-		[&functor](const pair<string, list<DefaultTestContext>> currentTestList)
+		[&functor](const pair<const string, InnerTestList>& currentTestList)
 		{
 			using namespace std;
 
@@ -47,5 +47,5 @@ namespace Test
 		});
 	}
 
-	int GetNumberOfFailedTests(const CompleteTestList& tests);
+	int GetNumberOfFailedTests(const OuterTestList& tests);
 }
