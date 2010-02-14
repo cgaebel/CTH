@@ -5,7 +5,7 @@ namespace Test
 {
 	namespace Utilities
 	{
-		int custom_strcmp(const char* str1, const char* str2)
+		static int custom_strcmp(const char* str1, const char* str2)
 		{
 			for(int i = 0;; ++i)
 			{
@@ -15,6 +15,18 @@ namespace Test
 				if(str1[i] == '\0')
 					return 0;
 			}
+		}
+
+		template <>
+		bool TEST_API AreEqual(char* expected, char* actual)
+		{
+			return custom_strcmp(expected, actual) == 0;
+		}
+
+		template <>
+		bool TEST_API AreEqual(const char* expected, const char* actual)
+		{
+			return custom_strcmp(expected, actual) == 0;
 		}
 	}
 }

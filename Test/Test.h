@@ -184,23 +184,9 @@ namespace Test
 		}
 
 		template <typename DataType>
-		inline bool AreEqual(DataType expected, DataType actual)
+		bool AreEqual(DataType expected, DataType actual)
 		{
 			return expected == actual;
-		}
-
-		int TEST_API custom_strcmp(const char* str1, const char* str2);
-
-		template <>
-		inline bool AreEqual(char* expected, char* actual)
-		{
-			return custom_strcmp(expected, actual) == 0;
-		}
-
-		template <>
-		inline bool AreEqual(const char* expected, const char* actual)
-		{
-			return custom_strcmp(expected, actual) == 0;
 		}
 	}
 
