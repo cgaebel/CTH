@@ -7,23 +7,16 @@ namespace Test
 {
 	static size_t GetNumberOfTests(const OuterTestList& tests)
 	{
-		size_t count = 0;
-
-		for_each(tests.begin(), tests.end(),
-		[&count](const OuterTestListIterator& testList)
+		return accumulate(tests.begin(), tests.end(), static_cast<size_t>(0),
+		[](size_t currentCount, const OuterTestListIterator& testList)
 		{
-			count += testList.second.size();
+			return currentCount + testList.second.size();
 		});
-
-		return count;
 	}
 
-	static const char* GetPluralOfTestIfNecessary(size_t number)
+	static inline const char* GetPluralOfTestIfNecessary(size_t number)
 	{
-		if(number == 1)
-			return "test";
-		else
-			return "tests";
+		return (number == 1) ? "test" : "tests";
 	}
 
 	void PrintAllFailures(const DefaultTestContext& test)
@@ -39,21 +32,32 @@ namespace Test
 		});
 	}
 
+	static void PrintSuccessMessage(const OuterTestList& tests)
+	{
+		size_t numberOfTests = GetNumberOfTests(tests);
+		printf("%d unit %s passed.", numberOfTests, GetPluralOfTestIfNecessary(numberOfTests));
+	}
+
+	static void PrintFailureMessage(size_t returnCode)
+	{
+		printf("%d unit %s failed.", returnCode, GetPluralOfTestIfNecessary(returnCode));
+	}
+
+	static void PrintTimingData(long elapsedTime)
+	{
+		printf("\nTest time: %i ms.", elapsedTime);
+	}
+
 	void PrintSummary(
 		const OuterTestList& tests,
 		size_t returnCode,
 		long lengthOfTest)
 	{
 		if(returnCode == 0)
-		{
-			size_t numberOfTests = GetNumberOfTests(tests);
-			printf("%d unit %s passed.", numberOfTests, GetPluralOfTestIfNecessary(numberOfTests));
-		}
+			PrintSuccessMessage(tests);
 		else
-		{
-			printf("%d unit %s failed.", returnCode, GetPluralOfTestIfNecessary(returnCode));
-		}
+			PrintFailureMessage(returnCode);
 
-		printf("\nTest time: %i ms.", lengthOfTest);
+		PrintTimingData(lengthOfTest);
 	}
 }

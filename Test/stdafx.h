@@ -8,6 +8,7 @@
 #include <vector>
 #include <list>
 #include <algorithm>
+#include <numeric>
 
 #include <unordered_map>
 
