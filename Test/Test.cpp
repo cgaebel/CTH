@@ -3,7 +3,6 @@
 #include "Types.h"
 #include "Test.h"
 #include "TestContext.h"
-#include "Failure.h"
 
 #include "Timer.h"
 #include "Utilities.h"
@@ -32,6 +31,6 @@ namespace Test
 
 		size_t returnCode = GetNumberOfFailedTests(tests);
 		PrintSummary(tests, returnCode, testTime);
-		return (int)returnCode;
+		return static_cast<int>(returnCode);
 	}
 }
