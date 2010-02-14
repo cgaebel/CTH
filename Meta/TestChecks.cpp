@@ -42,12 +42,11 @@ TEST(FloatingPointComparisons)
 
 TEST(Pointers)
 {
-	void* null = nullptr;
-	void* notNull = (void*)1;
+	int foo;
 
-	CHECK_NULL(null);
-	ASSERT_NULL(null);
+	CHECK_NULL(nullptr);
+	ASSERT_NULL(nullptr);
 
-	CHECK_VALID(notNull);
-	ASSERT_VALID(notNull);
+	CHECK_VALID(&foo);
+	ASSERT_VALID(&foo);
 }
