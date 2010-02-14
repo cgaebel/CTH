@@ -1,5 +1,8 @@
 #pragma once
-#include "stdafx.h"
+#include <list>
+#include <string>
+#include <unordered_map>
+
 #include "TestContext.h"
 
 namespace Test
