@@ -8,6 +8,9 @@
     <Filter Include="pch">
       <UniqueIdentifier>{ce986821-2494-4aae-99d6-c1eb8a7416ea}</UniqueIdentifier>
     </Filter>
+    <Filter Include="docs">
+      <UniqueIdentifier>{084e7dbd-e1e2-4ea7-902e-0d95e907180e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Test.h">
@@ -27,5 +30,10 @@
     </ClCompile>
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="Utilities.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LICENSE">
+      <Filter>docs</Filter>
+    </None>
   </ItemGroup>
 </Project>
