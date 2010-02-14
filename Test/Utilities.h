@@ -9,16 +9,12 @@ namespace Test
 	template <typename LambdaType>
 	void for_each_test(OuterTestList& testList, LambdaType functor)
 	{
-		using namespace std;
-
-		for_each(testList.begin(), testList.end(),
-		[&functor](pair<const string, InnerTestList>& currentTestList)
+		std::for_each(testList.begin(), testList.end(),
+		[&functor](OuterTestListIterator& currentTestList)
 		{
-			using namespace std;
-
 			auto innerFunctor = functor;
 
-			for_each(currentTestList.second.begin(), currentTestList.second.end(),
+			std::for_each(currentTestList.second.begin(), currentTestList.second.end(),
 			[&innerFunctor](DefaultTestContext& test)
 			{
 				innerFunctor(test);
@@ -30,16 +26,12 @@ namespace Test
 	template <typename LambdaType>
 	void for_each_test(const OuterTestList& testList, LambdaType functor)
 	{
-		using namespace std;
-
-		for_each(testList.begin(), testList.end(),
-		[&functor](const pair<const string, InnerTestList>& currentTestList)
+		std::for_each(testList.begin(), testList.end(),
+		[&functor](const OuterTestListIterator& currentTestList)
 		{
-			using namespace std;
-
 			auto innerFunctor = functor;
 
-			for_each(currentTestList.second.begin(), currentTestList.second.end(),
+			std::for_each(currentTestList.second.begin(), currentTestList.second.end(),
 			[&innerFunctor](const DefaultTestContext& test)
 			{
 				innerFunctor(test);

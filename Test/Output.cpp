@@ -10,7 +10,7 @@ namespace Test
 		size_t count = 0;
 
 		for_each(tests.begin(), tests.end(),
-		[&count](const pair<string, InnerTestList>& testList)
+		[&count](const OuterTestListIterator& testList)
 		{
 			count += testList.second.size();
 		});

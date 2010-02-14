@@ -12,7 +12,7 @@ namespace Test
 		toRun.testFunction(toRun);
 	}
 
-	static void RunMappedTests(pair<const string, InnerTestList>& tests)
+	static void RunMappedTests(OuterTestListIterator& tests)
 	{
 		for_each(tests.second.begin(), tests.second.end(), RunTest);
 	}
