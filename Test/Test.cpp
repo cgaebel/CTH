@@ -6,16 +6,57 @@
 #include "Timer.h"
 
 using namespace std;
+using namespace stdext;
 using namespace Concurrency;
 
 namespace Test
 {
-	static void RunTestsInParallel(vector<DefaultTestContext>& list)
+	typedef hash_map<string, list<DefaultTestContext>> CompleteTestList;
+
+	// The lambda must take a DefaultTestContext& as a parameter.
+	template <typename LambdaType>
+	static void for_each_test(CompleteTestList& testList, LambdaType functor)
 	{
-		parallel_for_each(list.begin(), list.end(),
-		[](DefaultTestContext& currentTest)
+		for_each(testList.begin(), testList.end(),
+		[&functor](pair<string, list<DefaultTestContext>> currentTestList)
 		{
-			currentTest.testFunction(currentTest);
+			auto innerFunctor = functor;
+
+			for_each(currentTestList.second.begin(), currentTestList.second.end(),
+			[&innerFunctor](DefaultTestContext& test)
+			{
+				innerFunctor(test);
+			});
+		});
+	}
+
+	// The lambda must take a const DefaultTestContext& as a parameter.
+	template <typename LambdaType>
+	static void for_each_test(const CompleteTestList& testList, LambdaType functor)
+	{
+		for_each(testList.begin(), testList.end(),
+		[&functor](const pair<string, list<DefaultTestContext>> currentTestList)
+		{
+			auto innerFunctor = functor;
+
+			for_each(currentTestList.second.begin(), currentTestList.second.end(),
+			[&innerFunctor](const DefaultTestContext& test)
+			{
+				innerFunctor(test);
+			});
+		});
+	}
+
+	static void RunTestsInParallel(CompleteTestList& testList)
+	{
+		parallel_for_each(testList.begin(), testList.end(),
+		[](pair<string, list<DefaultTestContext>> currentTestList)
+		{
+			for_each(currentTestList.second.begin(), currentTestList.second.end(),
+			[](DefaultTestContext& currentTest)
+			{
+				currentTest.testFunction(currentTest);
+			});
 		});
 	}
 
@@ -32,34 +73,47 @@ namespace Test
 		});
 	}
 
-	static int GetReturnCode(const vector<DefaultTestContext>& tests)
+	static int GetNumberOfFailedTests(const CompleteTestList& tests)
 	{
 		int returnCode = 0;
 
-		for_each(tests.begin(), tests.end(),
-		[&returnCode](const DefaultTestContext& test)
+		for_each_test(tests,
+		[&returnCode](const DefaultTestContext& currentTest)
 		{
-			if(!test.failures.empty())
+			if(!currentTest.failures.empty())
 				++returnCode;
 		});
 
 		return returnCode;
 	}
 
+	static size_t GetNumberOfTests(const CompleteTestList& tests)
+	{
+		size_t count = 0;
+
+		for_each(tests.begin(), tests.end(),
+		[&count](const pair<string, list<DefaultTestContext>>& testList)
+		{
+			count += testList.second.size();
+		});
+
+		return count;
+	}
+
 	static void PrintSummary(
-		const vector<DefaultTestContext>& tests,
-		int returnCode,
+		const CompleteTestList& tests,
+		size_t returnCode,
 		long lengthOfTest)
 	{
 		if(returnCode == 0)
-			printf("%d unit tests passed.", tests.size());
+			printf("%d unit tests passed.", GetNumberOfTests(tests));
 		else
 			printf("%d unit tests failed.", returnCode);
 
 		printf("\nTest time: %i ms.", lengthOfTest);
 	}
 
-	static vector<DefaultTestContext> tests;
+	static CompleteTestList tests;
 
 	const int TEST_API AddToGlobalTestList(
 		const char* testName,
@@ -67,7 +121,7 @@ namespace Test
 		int lineNumber,
 		void (*testFunction)(TestContext&))
 	{
-		tests.push_back(DefaultTestContext(testName, fileName, lineNumber, testFunction));
+		tests[fileName].push_back(DefaultTestContext(testName, fileName, lineNumber, testFunction));
 		return 0;
 	}
 
@@ -75,10 +129,10 @@ namespace Test
 	{
 		long testTime = TimeFunction([](){ RunTestsInParallel(tests); });
 
-		for_each(tests.begin(), tests.end(), PrintAllFailures);
+		for_each_test(tests, PrintAllFailures);
 
-		int returnCode = GetReturnCode(tests);
+		size_t returnCode = GetNumberOfFailedTests(tests);
 		PrintSummary(tests, returnCode, testTime);
-		return GetReturnCode(tests);
+		return (int)returnCode;
 	}
 }
