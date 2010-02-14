@@ -1,7 +1,9 @@
 #include "stdafx.h"
 
 #include "Test.h"
+
 #include "TestContext.h"
+#include "Failure.h"
 
 #include "Timer.h"
 
@@ -100,15 +102,27 @@ namespace Test
 		return count;
 	}
 
+	static const char* GetPluralOfTestIfNecessary(size_t number)
+	{
+		if(number == 1)
+			return "test";
+		else
+			return "tests";
+	}
+
 	static void PrintSummary(
 		const CompleteTestList& tests,
 		size_t returnCode,
 		long lengthOfTest)
 	{
 		if(returnCode == 0)
-			printf("%d unit tests passed.", GetNumberOfTests(tests));
+		{
+			size_t numberOfTests = GetNumberOfTests(tests);
+
+			printf("%d unit %s passed.", numberOfTests, GetPluralOfTestIfNecessary(numberOfTests));
+		}
 		else
-			printf("%d unit tests failed.", returnCode);
+			printf("%d unit %s failed.", returnCode, GetPluralOfTestIfNecessary(returnCode));
 
 		printf("\nTest time: %i ms.", lengthOfTest);
 	}
@@ -127,7 +141,7 @@ namespace Test
 
 	int TEST_API RunAllTests()
 	{
-		long testTime = TimeFunction([](){ RunTestsInParallel(tests); });
+		long testTime = TimeLambda([](){ RunTestsInParallel(tests); });
 
 		for_each_test(tests, PrintAllFailures);
 

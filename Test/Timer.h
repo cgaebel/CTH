@@ -4,7 +4,7 @@
 // Takes a functor to execute, and returns how long it took
 // to return in milliseconds. Profiling gold!
 template <typename LambdaType>
-long TimeFunction(const LambdaType& functor)
+long TimeLambda(const LambdaType& functor)
 {
 	const clock_t CLOCKS_PER_MILLISECOND = CLOCKS_PER_SEC / 1000;
 

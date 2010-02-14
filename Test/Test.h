@@ -174,7 +174,7 @@ namespace Test
 	namespace Utilities
 	{
 		template <typename FloatType>
-		inline bool AreClose(
+		bool AreClose(
 			FloatType expected,
 			FloatType actual,
 			FloatType tolerance)
@@ -190,19 +190,7 @@ namespace Test
 		}
 	}
 
-	struct TEST_API Failure
-	{
-		const char* message;
-		int lineNumber;
-
-		inline Failure()
-		{
-		}
-
-		Failure(const char* message, const int lineNumber);
-	};
-
-	class TEST_API TestContext
+	class TestContext abstract
 	{
 	public:
 		virtual void AddFailure(int lineNumber, const char* message) = 0;

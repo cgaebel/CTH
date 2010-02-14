@@ -88,6 +88,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Failure.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="TestContext.h" />

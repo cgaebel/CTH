@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Test.h"
+#include "Failure.h"
 
 namespace Test
 {

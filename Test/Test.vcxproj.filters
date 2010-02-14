@@ -21,6 +21,7 @@
     </ClInclude>
     <ClInclude Include="TestContext.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Failure.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestContext.cpp" />
