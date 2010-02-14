@@ -1,20 +1,19 @@
 #include "stdafx.h"
-#include "Test.h"
+#include "Utilities.h"
 
 namespace Test
 {
-	namespace Utilities
+	int GetNumberOfFailedTests(const CompleteTestList& tests)
 	{
-		template <>
-		bool TEST_API AreEqual(char* expected, char* actual)
-		{
-			return strcmp(expected, actual) == 0;
-		}
+		int returnCode = 0;
 
-		template <>
-		bool TEST_API AreEqual(const char* expected, const char* actual)
+		for_each_test(tests,
+		[&returnCode](const DefaultTestContext& currentTest)
 		{
-			return strcmp(expected, actual) == 0;
-		}
+			if(!currentTest.failures.empty())
+				++returnCode;
+		});
+
+		return returnCode;
 	}
 }

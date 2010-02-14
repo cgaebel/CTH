@@ -102,14 +102,14 @@ namespace Test
 
 		#define CHECK_EQUAL(expected, actual)								\
 		{																	\
-			if(!::Test::Utilities::AreEqual(expected, actual))				\
+			if(!::Test::CheckHelpers::AreEqual(expected, actual))			\
 				__testContext.AddFailure(__LINE__,							\
 					"Expected \"" #expected "\" but was \"" #actual "\".");	\
 		} 0
 
 		#define ASSERT_EQUAL(expected, actual)								\
 		{																	\
-			if(!::Test::Utilities::AreEqual(expected, actual))				\
+			if(!::Test::CheckHelpers::AreEqual(expected, actual))			\
 			{																\
 				__testContext.AddFailure(__LINE__,							\
 					"Expected \"" #expected "\" but was \"" #actual "\".");	\
@@ -119,7 +119,7 @@ namespace Test
 
 		#define CHECK_CLOSE(expected, actual, tolerance)					\
 		{																	\
-			if(!::Test::Utilities::AreClose(expected, actual, tolerance))	\
+			if(!::Test::CheckHelpers::AreClose(expected, actual, tolerance))\
 				__testContext.AddFailure(__LINE__,							\
 					"Expected \"" #expected "\" +/- " #tolerance			\
 					" but was \"" #actual "\".");							\
@@ -127,7 +127,7 @@ namespace Test
 
 		#define ASSERT_CLOSE(expected, actual, tolerance)					\
 		{																	\
-			if(!::Test::Utilities::AreClose(expected, actual, tolerance))	\
+			if(!::Test::CheckHelpers::AreClose(expected, actual, tolerance))\
 			{																\
 				__testContext.AddFailure(__LINE__,							\
 					"Expected \"" #expected "\" +/- " #tolerance			\
@@ -171,7 +171,7 @@ namespace Test
 		} 0
 	}
 
-	namespace Utilities
+	namespace CheckHelpers
 	{
 		template <typename FloatType>
 		bool AreClose(

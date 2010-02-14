@@ -89,19 +89,26 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Failure.h" />
+    <ClInclude Include="Output.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Test.h" />
     <ClInclude Include="TestContext.h" />
+    <ClInclude Include="TestRunner.h" />
     <ClInclude Include="Timer.h" />
+    <ClInclude Include="Types.h" />
+    <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Failure.cpp" />
+    <ClCompile Include="Output.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Test.cpp" />
     <ClCompile Include="TestContext.cpp" />
+    <ClCompile Include="CheckHelpers.cpp" />
+    <ClCompile Include="TestRunner.cpp" />
     <ClCompile Include="Utilities.cpp" />
   </ItemGroup>
   <ItemGroup>

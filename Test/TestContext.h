@@ -1,3 +1,4 @@
+#pragma once
 #include "stdafx.h"
 #include "Test.h"
 #include "Failure.h"

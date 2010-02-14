@@ -22,6 +22,14 @@
     <ClInclude Include="TestContext.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="Failure.h" />
+    <ClInclude Include="Utilities.h" />
+    <ClInclude Include="Output.h" />
+    <ClInclude Include="Types.h">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="TestRunner.h">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TestContext.cpp" />
@@ -30,7 +38,10 @@
       <Filter>pch</Filter>
     </ClCompile>
     <ClCompile Include="Test.cpp" />
+    <ClCompile Include="CheckHelpers.cpp" />
+    <ClCompile Include="Output.cpp" />
     <ClCompile Include="Utilities.cpp" />
+    <ClCompile Include="TestRunner.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE">
