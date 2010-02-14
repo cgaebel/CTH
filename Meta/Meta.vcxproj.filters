@@ -9,6 +9,9 @@
     <ClCompile Include="TestChecks.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="TestConcurrency.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">
