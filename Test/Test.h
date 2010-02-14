@@ -95,7 +95,7 @@ namespace Test
 		{																	\
 			if((condition) == true)											\
 			{																\
-				__testContext.AddFailure(__LINE__, #condition);	\
+				__testContext.AddFailure(__LINE__, #condition);				\
 				return;														\
 			}																\
 		} 0
@@ -104,7 +104,7 @@ namespace Test
 		{																	\
 			if(!::Test::CheckHelpers::AreEqual(expected, actual))			\
 				__testContext.AddFailure(__LINE__,							\
-					"Expected \"" #expected "\" but was \"" #actual "\".");	\
+					"Expected " #expected " but was " #actual ".");			\
 		} 0
 
 		#define ASSERT_EQUAL(expected, actual)								\
@@ -112,7 +112,7 @@ namespace Test
 			if(!::Test::CheckHelpers::AreEqual(expected, actual))			\
 			{																\
 				__testContext.AddFailure(__LINE__,							\
-					"Expected \"" #expected "\" but was \"" #actual "\".");	\
+					"Expected " #expected " but was " #actual ".");			\
 				return;														\
 			}																\
 		} 0
@@ -121,8 +121,8 @@ namespace Test
 		{																	\
 			if(!::Test::CheckHelpers::AreClose(expected, actual, tolerance))\
 				__testContext.AddFailure(__LINE__,							\
-					"Expected \"" #expected "\" +/- " #tolerance			\
-					" but was \"" #actual "\".");							\
+					"Expected " #expected " +/- " #tolerance				\
+					" but was " #actual ".");								\
 		} 0
 
 		#define ASSERT_CLOSE(expected, actual, tolerance)					\
@@ -130,8 +130,8 @@ namespace Test
 			if(!::Test::CheckHelpers::AreClose(expected, actual, tolerance))\
 			{																\
 				__testContext.AddFailure(__LINE__,							\
-					"Expected \"" #expected "\" +/- " #tolerance			\
-					" but was \"" #actual "\".");							\
+					"Expected " #expected " +/- " #tolerance				\
+					" but was " #actual ".");								\
 				return;														\
 			}																\
 		} 0
@@ -140,7 +140,7 @@ namespace Test
 		{																	\
 			if((pointer) != nullptr)										\
 				__testContext.AddFailure(__LINE__,							\
-					"\"" #pointer "\" is not NULL.");						\
+					"" #pointer " is not NULL.");							\
 		} 0
 
 		#define ASSERT_NULL(pointer)										\
@@ -148,7 +148,7 @@ namespace Test
 			if((pointer) != nullptr)										\
 			{																\
 				__testContext.AddFailure(__LINE__,							\
-					"\"" #pointer "\" is not NULL.");						\
+					"" #pointer " is not NULL.");							\
 					return;													\
 			}																\
 		} 0
@@ -157,7 +157,7 @@ namespace Test
 		{																	\
 			if((pointer) == nullptr)										\
 				__testContext.AddFailure(__LINE__,							\
-					"\"" #pointer "\" is NULL.");							\
+					"" #pointer " is NULL.");								\
 		} 0
 
 		#define ASSERT_VALID(pointer)										\
@@ -165,7 +165,7 @@ namespace Test
 			if((pointer) == nullptr)										\
 			{ 																\
 				__testContext.AddFailure(__LINE__,							\
-					"\"" #pointer "\" is NULL.");							\
+					"" #pointer " is NULL.");								\
 				return;														\
 			}																\
 		} 0
