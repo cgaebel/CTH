@@ -189,18 +189,18 @@ namespace Test
 			return expected == actual;
 		}
 
-		int TEST_API my_strcmp(const char* str1, const char* str2);
+		int TEST_API custom_strcmp(const char* str1, const char* str2);
 
 		template <>
 		inline bool AreEqual(char* expected, char* actual)
 		{
-			return my_strcmp(expected, actual) == 0;
+			return custom_strcmp(expected, actual) == 0;
 		}
 
 		template <>
 		inline bool AreEqual(const char* expected, const char* actual)
 		{
-			return my_strcmp(expected, actual) == 0;
+			return custom_strcmp(expected, actual) == 0;
 		}
 	}
 

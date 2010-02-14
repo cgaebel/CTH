@@ -5,11 +5,9 @@ namespace Test
 {
 	namespace Utilities
 	{
-		int my_strcmp(const char* str1, const char* str2)
+		int custom_strcmp(const char* str1, const char* str2)
 		{
-			int i;
-
-			for(i = 0;; ++i)
+			for(int i = 0;; ++i)
 			{
 				if(str1[i] != str2[i])
 					return (str1[i] > str2[i]) ? 1 : -1;
