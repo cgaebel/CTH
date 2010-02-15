@@ -1,16 +1,17 @@
 #pragma once
+#include <string>
 
 namespace Test
 {
 	struct Failure
 	{
-		const char* message;
+		std::string message;
 		int lineNumber;
 
 		inline Failure()
 		{
 		}
 
-		Failure(const char* message, const int lineNumber);
+		Failure(std::string message, const int lineNumber);
 	};
 }

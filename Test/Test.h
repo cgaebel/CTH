@@ -1,4 +1,7 @@
 #pragma once
+#include <string>
+#include <sstream>
+
 #ifdef TEST_EXPORTS
 #define TEST_API __declspec(dllexport)
 #else
@@ -73,14 +76,14 @@ namespace Test
 		#define CHECK_TRUE(condition)										\
 		{																	\
 			if((condition) == false)										\
-				__testContext.AddFailure(__LINE__, #condition);				\
+				__testContext.AddFailure(__LINE__, #condition " is false.");\
 		} 0
 
 		#define ASSERT_TRUE(condition)										\
 		{																	\
 			if((condition) == false)										\
 			{																\
-				__testContext.AddFailure(__LINE__, #condition);				\
+				__testContext.AddFailure(__LINE__, #condition " is false.");\
 				return;														\
 			}																\
 		} 0
@@ -88,14 +91,14 @@ namespace Test
 		#define CHECK_FALSE(condition)										\
 		{																	\
 			if((condition) == true)											\
-				__testContext.AddFailure(__LINE__, #condition);				\
+				__testContext.AddFailure(__LINE__, #condition " is true.");	\
 		} 0
 
 		#define ASSERT_FALSE(condition)										\
 		{																	\
 			if((condition) == true)											\
 			{																\
-				__testContext.AddFailure(__LINE__, #condition);				\
+				__testContext.AddFailure(__LINE__, #condition " is true.");	\
 				return;														\
 			}																\
 		} 0
@@ -104,7 +107,8 @@ namespace Test
 		{																	\
 			if(!::Test::CheckHelpers::AreEqual(expected, actual))			\
 				__testContext.AddFailure(__LINE__,							\
-					"Expected " #expected " but was " #actual ".");			\
+					::Test::CheckHelpers::MakeErrorStringEqual(				\
+						expected, actual));									\
 		} 0
 
 		#define ASSERT_EQUAL(expected, actual)								\
@@ -112,7 +116,8 @@ namespace Test
 			if(!::Test::CheckHelpers::AreEqual(expected, actual))			\
 			{																\
 				__testContext.AddFailure(__LINE__,							\
-					"Expected " #expected " but was " #actual ".");			\
+					::Test::CheckHelpers::MakeErrorStringEqual(				\
+						expected, actual));									\
 				return;														\
 			}																\
 		} 0
@@ -121,8 +126,8 @@ namespace Test
 		{																	\
 			if(!::Test::CheckHelpers::AreClose(expected, actual, tolerance))\
 				__testContext.AddFailure(__LINE__,							\
-					"Expected " #expected " +/- " #tolerance				\
-					" but was " #actual ".");								\
+					::Test::CheckHelpers::MakeErrorStringClose(				\
+						expected, actual, tolerance));						\
 		} 0
 
 		#define ASSERT_CLOSE(expected, actual, tolerance)					\
@@ -130,8 +135,8 @@ namespace Test
 			if(!::Test::CheckHelpers::AreClose(expected, actual, tolerance))\
 			{																\
 				__testContext.AddFailure(__LINE__,							\
-					"Expected " #expected " +/- " #tolerance				\
-					" but was " #actual ".");								\
+					::Test::CheckHelpers::MakeErrorStringClose(				\
+						expected, actual, tolerance));						\
 				return;														\
 			}																\
 		} 0
@@ -140,7 +145,7 @@ namespace Test
 		{																	\
 			if((pointer) != nullptr)										\
 				__testContext.AddFailure(__LINE__,							\
-					"" #pointer " is not NULL.");							\
+					#pointer " is not NULL.");								\
 		} 0
 
 		#define ASSERT_NULL(pointer)										\
@@ -148,7 +153,7 @@ namespace Test
 			if((pointer) != nullptr)										\
 			{																\
 				__testContext.AddFailure(__LINE__,							\
-					"" #pointer " is not NULL.");							\
+					#pointer " is not NULL.");								\
 					return;													\
 			}																\
 		} 0
@@ -157,7 +162,7 @@ namespace Test
 		{																	\
 			if((pointer) == nullptr)										\
 				__testContext.AddFailure(__LINE__,							\
-					"" #pointer " is NULL.");								\
+					#pointer " is NULL.");									\
 		} 0
 
 		#define ASSERT_VALID(pointer)										\
@@ -165,7 +170,7 @@ namespace Test
 			if((pointer) == nullptr)										\
 			{ 																\
 				__testContext.AddFailure(__LINE__,							\
-					"" #pointer " is NULL.");								\
+					#pointer " is NULL.");									\
 				return;														\
 			}																\
 		} 0
@@ -194,12 +199,35 @@ namespace Test
 
 		template <>
 		bool TEST_API AreEqual(char* expected, char* actual);
+
+		template <typename DataType>
+		std::string MakeErrorStringEqual(
+			DataType expected,
+			DataType actual)
+		{
+			std::ostringstream out;
+			out << "Expected " << expected
+				<< " but was " << actual;
+			return out.str();
+		}
+
+		template <typename DataType>
+		std::string MakeErrorStringClose(
+			DataType expected,
+			DataType actual,
+			DataType tolerance)
+		{
+			std::ostringstream out;
+			out << "Expected " << expected << " +/- " << tolerance
+				<< " but was " << actual;
+			return out.str();
+		}
 	}
 
 	class TestContext abstract
 	{
 	public:
-		virtual void AddFailure(int lineNumber, const char* message) = 0;
+		virtual void AddFailure(int lineNumber, std::string message) = 0;
 	};
 
 	const int TEST_API AddToGlobalTestList(

@@ -27,7 +27,7 @@ namespace Test
 			printf(
 				"%s(%d): error: Failure in %s: %s\n",
 				test.fileName, failure.lineNumber,
-				test.testName, failure.message
+				test.testName, failure.message.c_str()
 			);
 		});
 	}

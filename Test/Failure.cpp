@@ -3,9 +3,9 @@
 
 namespace Test
 {
-	Failure::Failure(const char* _message, const int _lineNumber)
+	Failure::Failure(std::string _message, const int _lineNumber)
+		: message(_message)
 	{
-		message = _message;
 		lineNumber = _lineNumber;
 	}
 }
