@@ -6,7 +6,7 @@
 // #include "../Food/ThingsILikeToEat.cpp"
 //
 // instead of inlining the following three functions directly, but I
-// think inlining a whole 'nother project is overkill.
+// think creating a whole 'nother project for this is overkill.
 bool CanIEat(int numberOfTeeth)
 {
 	return numberOfTeeth == 32;
