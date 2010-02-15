@@ -7,11 +7,15 @@ namespace Test
 {
 	static size_t GetNumberOfTests(const OuterTestList& tests)
 	{
-		return accumulate(tests.begin(), tests.end(), static_cast<size_t>(0),
-		[](size_t currentCount, const OuterTestListIterator& testList)
+		auto failureCounter = [](
+			size_t currentCount,
+			const OuterTestListIterator& testList)
 		{
 			return currentCount + testList.second.size();
-		});
+		};
+
+		return accumulate(tests.begin(), tests.end(),
+			static_cast<size_t>(0), failureCounter);
 	}
 
 	static inline const char* GetPluralOfTestIfNecessary(size_t number)
@@ -50,14 +54,14 @@ namespace Test
 
 	void PrintSummary(
 		const OuterTestList& tests,
-		size_t returnCode,
-		long lengthOfTest)
+		size_t numberOfFailedTests,
+		long elapsedTestTime)
 	{
-		if(returnCode == 0)
+		if(numberOfFailedTests == 0)
 			PrintSuccessMessage(tests);
 		else
-			PrintFailureMessage(returnCode);
+			PrintFailureMessage(numberOfFailedTests);
 
-		PrintTimingData(lengthOfTest);
+		PrintTimingData(elapsedTestTime);
 	}
 }

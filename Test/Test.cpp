@@ -33,8 +33,8 @@ namespace Test
 
 		for_each_test(tests, PrintAllFailures);
 
-		size_t returnCode = GetNumberOfFailedTests(tests);
-		PrintSummary(tests, returnCode, testTime);
-		return static_cast<int>(returnCode);
+		size_t numberOfFailedTests = GetNumberOfFailedTests(tests);
+		PrintSummary(tests, numberOfFailedTests, testTime);
+		return static_cast<int>(numberOfFailedTests);
 	}
 }
