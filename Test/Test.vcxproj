@@ -99,6 +99,7 @@
     <ClInclude Include="Utilities.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Config.cpp" />
     <ClCompile Include="Failure.cpp" />
     <ClCompile Include="Output.cpp" />
     <ClCompile Include="stdafx.cpp">
