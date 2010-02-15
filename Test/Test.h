@@ -73,6 +73,12 @@ namespace Test
 
 	namespace ChecksAndAsserts
 	{
+		#define TERMINATE_TEST(message)										\
+		{																	\
+			__testContext.AddFailure(__LINE__, message);					\
+			return;															\
+		} 0
+
 		#define CHECK_TRUE(condition)										\
 		{																	\
 			if((condition) == false)										\
@@ -82,10 +88,7 @@ namespace Test
 		#define ASSERT_TRUE(condition)										\
 		{																	\
 			if((condition) == false)										\
-			{																\
-				__testContext.AddFailure(__LINE__, #condition " is false.");\
-				return;														\
-			}																\
+				TERMINATE_TEST(#condition " is false.");					\
 		} 0
 
 		#define CHECK_FALSE(condition)										\
@@ -97,10 +100,7 @@ namespace Test
 		#define ASSERT_FALSE(condition)										\
 		{																	\
 			if((condition) == true)											\
-			{																\
-				__testContext.AddFailure(__LINE__, #condition " is true.");	\
-				return;														\
-			}																\
+				TERMINATE_TEST(#condition " is true.");						\
 		} 0
 
 		#define CHECK_EQUAL(expected, actual)								\
@@ -114,12 +114,8 @@ namespace Test
 		#define ASSERT_EQUAL(expected, actual)								\
 		{																	\
 			if(!::Test::CheckHelpers::AreEqual(expected, actual))			\
-			{																\
-				__testContext.AddFailure(__LINE__,							\
-					::Test::CheckHelpers::MakeErrorStringEqual(				\
-						expected, actual));									\
-				return;														\
-			}																\
+				TERMINATE_TEST(::Test::CheckHelpers::MakeErrorStringEqual(	\
+					expected, actual));										\
 		} 0
 
 		#define CHECK_CLOSE(expected, actual, tolerance)					\
@@ -133,12 +129,8 @@ namespace Test
 		#define ASSERT_CLOSE(expected, actual, tolerance)					\
 		{																	\
 			if(!::Test::CheckHelpers::AreClose(expected, actual, tolerance))\
-			{																\
-				__testContext.AddFailure(__LINE__,							\
-					::Test::CheckHelpers::MakeErrorStringClose(				\
-						expected, actual, tolerance));						\
-				return;														\
-			}																\
+				TERMINATE_TEST(::Test::CheckHelpers::MakeErrorStringClose(	\
+					expected, actual, tolerance));							\
 		} 0
 
 		#define CHECK_NULL(pointer)											\
@@ -151,11 +143,7 @@ namespace Test
 		#define ASSERT_NULL(pointer)										\
 		{																	\
 			if((pointer) != nullptr)										\
-			{																\
-				__testContext.AddFailure(__LINE__,							\
-					#pointer " is not NULL.");								\
-					return;													\
-			}																\
+				TERMINATE_TEST(#pointer " is not NULL.");					\
 		} 0
 
 		#define CHECK_VALID(pointer)										\
@@ -168,11 +156,7 @@ namespace Test
 		#define ASSERT_VALID(pointer)										\
 		{																	\
 			if((pointer) == nullptr)										\
-			{ 																\
-				__testContext.AddFailure(__LINE__,							\
-					#pointer " is NULL.");									\
-				return;														\
-			}																\
+				TERMINATE_TEST(#pointer " is NULL.");						\
 		} 0
 	}
 
