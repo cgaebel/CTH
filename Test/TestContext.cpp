@@ -36,7 +36,7 @@ namespace Test
 		return *this;
 	}
 
-	void DefaultTestContext::AddFailure(int lineNumber, std::string message)
+	void DefaultTestContext::AddFailure(int lineNumber, const std::string& message)
 	{
 		failures.push_back(Failure(message, lineNumber));
 	}

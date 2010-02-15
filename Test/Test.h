@@ -227,7 +227,7 @@ namespace Test
 	class TestContext abstract
 	{
 	public:
-		virtual void AddFailure(int lineNumber, std::string message) = 0;
+		virtual void AddFailure(int lineNumber, const std::string& message) = 0;
 	};
 
 	const int TEST_API AddToGlobalTestList(

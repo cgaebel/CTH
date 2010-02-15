@@ -29,6 +29,6 @@ namespace Test
 		DefaultTestContext(const DefaultTestContext& other);
 		DefaultTestContext& operator=(const DefaultTestContext& other);
 
-		void AddFailure(int lineNumber, std::string message);
+		void AddFailure(int lineNumber, const std::string& message);
 	};
 }

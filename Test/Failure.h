@@ -12,6 +12,6 @@ namespace Test
 		{
 		}
 
-		Failure(std::string message, const int lineNumber);
+		Failure(const std::string& message, const int lineNumber);
 	};
 }
