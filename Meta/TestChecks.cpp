@@ -25,7 +25,9 @@ TEST(Equality)
 	CHECK_EQUAL(1, PI / 2);
 
 	ASSERT_EQUAL(3, PI);
-	ASSERT_EQUAL(1, PI / 2);
+	ASSERT_EQUAL(1, PI / 3);
+
+	CHECK_EQUAL(PI / 2, PI / 3);
 
 	CHECK_EQUAL("Hello!", "Hello!");
 
