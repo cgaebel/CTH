@@ -8,7 +8,7 @@ using namespace Concurrency;
 namespace Test
 {
 	bool PreTest(DefaultTestContext& test);
-	void PostTest(DefaultTestContext& teset);
+	void PostTest(DefaultTestContext& test);
 
 	static void RunTest(DefaultTestContext& toRun)
 	{
@@ -16,6 +16,7 @@ namespace Test
 			return;
 
 		toRun.testFunction(toRun);
+
 		PostTest(toRun);
 	}
 

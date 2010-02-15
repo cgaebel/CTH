@@ -8,15 +8,15 @@ namespace Test
 {
 	static bool InnerAccumulator(const DefaultTestContext& currentTest)
 	{
-		return !currentTest.failures.empty();
+		return currentTest.failures.empty() == false;
 	}
 
-	static size_t OuterAccumulator(size_t num, const OuterTestListIterator& currentTestList)
+	static size_t OuterAccumulator(size_t num, const OuterTestListIterator& testList)
 	{
 		return num + 
 			std::count_if(
-				currentTestList.second.begin(),
-				currentTestList.second.end(),
+				testList.second.begin(),
+				testList.second.end(),
 				InnerAccumulator);
 	}
 
