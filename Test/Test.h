@@ -188,22 +188,21 @@ namespace Test
 				&& (actual <= (expected + tolerance));
 		}
 
-		template <typename DataType>
-		bool AreEqual(DataType expected, DataType actual)
+		template <typename D1, typename D2>
+		bool AreEqual(D1 expected, D2 actual)
 		{
 			return expected == actual;
 		}
 
-		template <>
 		bool TEST_API AreEqual(const char* expected, const char* actual);
-
-		template <>
+		bool TEST_API AreEqual(const char* expected, char* actual);
+		bool TEST_API AreEqual(char* expected, const char* actual);
 		bool TEST_API AreEqual(char* expected, char* actual);
-
-		template <typename DataType>
+		
+		template <typename D1, typename D2>
 		std::string MakeErrorStringEqual(
-			DataType expected,
-			DataType actual)
+			D1 expected,
+			D2 actual)
 		{
 			std::ostringstream out;
 			out << "Expected " << expected
@@ -211,11 +210,11 @@ namespace Test
 			return out.str();
 		}
 
-		template <typename DataType>
+		template <typename D1, typename D2, typename D3>
 		std::string MakeErrorStringClose(
-			DataType expected,
-			DataType actual,
-			DataType tolerance)
+			D1 expected,
+			D2 actual,
+			D3 tolerance)
 		{
 			std::ostringstream out;
 			out << "Expected " << expected << " +/- " << tolerance

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <string>
 
 TEST(TrueAndFalse)
 {
@@ -29,11 +30,30 @@ TEST(Equality)
 
 	CHECK_EQUAL(PI / 2, PI / 3);
 
-	CHECK_EQUAL("Hello!", "Hello!");
+#undef PI
+}
 
+TEST(StringEquality)
+{
+	char stringA[4];
+	char stringB[4];
+
+	strcpy_s(stringA, "aaa");
+	strcpy_s(stringB, stringA);
+
+	// const char* -> const char*
+	// If this fails, don't bother with the rest.
+	// The base implementation is broken.
 	ASSERT_EQUAL("Hello!", "Hello!");
 
-#undef PI
+	// char* -> const char*
+	CHECK_EQUAL(stringA, "aaa");
+
+	// const char* -> char*
+	CHECK_EQUAL("aaa", stringA);
+
+	// char* -> char*
+	CHECK_EQUAL(stringA, stringB);
 }
 
 TEST(FloatingPointComparisons)
