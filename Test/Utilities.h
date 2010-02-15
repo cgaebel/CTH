@@ -39,5 +39,5 @@ namespace Test
 		});
 	}
 
-	int GetNumberOfFailedTests(const OuterTestList& tests);
+	size_t GetNumberOfFailedTests(const OuterTestList& tests);
 }
