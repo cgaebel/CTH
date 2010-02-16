@@ -66,10 +66,10 @@ namespace Test
 	}
 
 	#define TEST(TestName)														\
-		static void Test__##TestName(::Test::TestContext&);						\
+		static void __cdecl Test__##TestName(::Test::TestContext&);				\
 		static const int placeholder__##TestName = ::Test::AddToGlobalTestList(	\
 			#TestName, __FILE__, __LINE__, Test__##TestName);					\
-		static void Test__##TestName(::Test::TestContext& __testContext)
+		static void __cdecl Test__##TestName(::Test::TestContext& __testContext)
 
 	namespace ChecksAndAsserts
 	{
@@ -207,7 +207,7 @@ namespace Test
 		}
 	}
 
-	class TestContext abstract
+	class TEST_API TestContext abstract
 	{
 	public:
 		virtual void AddFailure(int lineNumber, const std::string& message) = 0;
@@ -217,7 +217,7 @@ namespace Test
 		const char* testName,
 		const char* fileName,
 		int lineNumber,
-		void (*testFunction)(TestContext&));
+		void (__cdecl* testFunction)(TestContext&));
 
 	int TEST_API RunAllTests();
 }

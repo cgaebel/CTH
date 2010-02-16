@@ -10,7 +10,7 @@ namespace Test
 		const char* _testName,
 		const char* _fileName,
 		const int _lineNumber,
-		void (*_testFunction)(TestContext&))
+		void (__cdecl* _testFunction)(TestContext&))
 	{
 		testName = _testName;
 		fileName = _fileName;

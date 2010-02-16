@@ -24,7 +24,7 @@ namespace Test
 			const char* testName,
 			const char* fileName,
 			const int lineNumber,
-			void (*testFunction)(TestContext&));
+			void (__cdecl* testFunction)(TestContext&));
 
 		DefaultTestContext(const DefaultTestContext& other);
 		DefaultTestContext& operator=(const DefaultTestContext& other);
