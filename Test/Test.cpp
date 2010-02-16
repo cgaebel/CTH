@@ -2,12 +2,14 @@
 
 #include "Types.h"
 #include "Test.h"
-#include "TestContext.h"
+//#include "TestContext.h"
 
 #include "Timer.h"
 #include "Utilities.h"
 #include "Output.h"
+
 #include "TestRunner.h"
+#include "TestAdder.h"
 
 namespace Test
 {
@@ -23,7 +25,9 @@ namespace Test
 		int lineNumber,
 		void (__cdecl* testFunction)(TestContext&))
 	{
-		tests[fileName].push_back(DefaultTestContext(testName, fileName, lineNumber, testFunction));
+		AddTestToList(
+			tests,
+			DefaultTestContext(testName, fileName, lineNumber, testFunction));
 		return 0;
 	}
 

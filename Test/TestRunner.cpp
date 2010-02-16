@@ -7,16 +7,13 @@ using namespace Concurrency;
 
 namespace Test
 {
-	bool PreTest(DefaultTestContext& test);
+	void PreTest(DefaultTestContext& test);
 	void PostTest(DefaultTestContext& test);
 
 	static void RunTest(DefaultTestContext& toRun)
 	{
-		if(PreTest(toRun) == false)
-			return;
-
+		PreTest(toRun);
 		toRun.testFunction(toRun);
-
 		PostTest(toRun);
 	}
 
