@@ -11,9 +11,11 @@ namespace Test
 		const char* testName;
 		const char* fileName;
 		int lineNumber;
-		void (*testFunction)(TestContext&);
+		void (__cdecl* testFunction)(TestContext&);
 
-		std::list<Failure> failures;
+		typedef std::vector<Failure> FailureList;
+
+		FailureList failures;
 
 	public:
 		inline DefaultTestContext()
