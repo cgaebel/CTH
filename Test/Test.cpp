@@ -21,7 +21,7 @@ namespace Test
 		const char* testName,
 		const char* fileName,
 		int lineNumber,
-		void (*testFunction)(TestContext&))
+		void (__cdecl* testFunction)(TestContext&))
 	{
 		tests[fileName].push_back(DefaultTestContext(testName, fileName, lineNumber, testFunction));
 		return 0;
