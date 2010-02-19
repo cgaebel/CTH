@@ -12,13 +12,16 @@
     <ClCompile Include="TestConcurrency.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
-    <ClCompile Include="CCC2008.cpp">
-      <Filter>Tests</Filter>
+    <ClCompile Include="S02.cpp">
+      <Filter>Tests\CCC2008</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">
       <UniqueIdentifier>{90c2e475-6c75-45bd-a2e4-dc4515de0aa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\CCC2008">
+      <UniqueIdentifier>{bc9ab010-948e-4a4b-a87b-5f3ae32c211c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

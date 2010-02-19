@@ -89,7 +89,7 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CCC2008.cpp" />
+    <ClCompile Include="S02.cpp" />
     <ClCompile Include="TestChecks.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
