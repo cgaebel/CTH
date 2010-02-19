@@ -12,6 +12,9 @@
     <ClCompile Include="TestConcurrency.cpp">
       <Filter>Tests</Filter>
     </ClCompile>
+    <ClCompile Include="CCC2008.cpp">
+      <Filter>Tests</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">
