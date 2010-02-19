@@ -17,6 +17,10 @@ namespace S02
 		int x;
 		int y;
 
+		Point()
+		{
+		}
+
 		Point(int _x, int _y)
 		{
 			x = _x;
@@ -24,26 +28,30 @@ namespace S02
 		}
 	};
 
-	static double GetDistanceFromOrigin(const Point& p)
+	static inline double GetDistanceFromOrigin(const Point& p)
 	{
 		return sqrt((double)(p.x*p.x + p.y*p.y));
 	}
 
-	static bool IsInCircle(const Point& p, int r)
+	static inline bool IsInCircle(const Point& p, int r)
 	{
 		return GetDistanceFromOrigin(p) <= r;
 	}
 
 	static int Solve(int r)
 	{
-		int numberOfSolutions = 0;
+		int dotsInUpperRightQuadrant = 0;
+		
+		// Count the dots in the upper-right quadrant.
+		Point p;
 
-		for(int x = -r; x <= r; ++x)
-			for(int y = -r; y <= r; ++y)
-				if(IsInCircle(Point(x, y), r))
-					++numberOfSolutions;
+		for(p.x = 0; p.x <= r; ++p.x)
+			for(p.y = 0; p.y <= r; ++p.y)
+				if(IsInCircle(p, r))
+					++dotsInUpperRightQuadrant;
 
-		return numberOfSolutions;
+		// Prove it yourself you lazy bastard =P
+		return 4 * (dotsInUpperRightQuadrant - r) - 3;
 	}
 }
 
@@ -86,7 +94,9 @@ TEST(Regressions)
 	CHECK_EQUAL(2550297, Solve(901));
 }
 
+/* You should only uncomment this if you're in the mood for a 10 second test.
 TEST(MaximumValue)
 {
-	//CHECK_EQUAL(-1, S02::Solve(25000));
+	CHECK_EQUAL(1963494901, S02::Solve(25000));
 }
+*/
