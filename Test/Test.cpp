@@ -33,7 +33,7 @@ namespace Test
 
 	int TEST_API RunAllTests()
 	{
-		long testTime = TimeLambda([](){ RunTestsInParallel(tests); });
+		long testTime = TimeLambda([]{ RunTestsInParallel(tests); });
 
 		for_each_test(tests, PrintAllFailures);
 
