@@ -3,7 +3,7 @@
 
 // A WORD OF WARNING:
 //
-// There is no garuntee that your functions will be called from
+// There is no guarantee that your functions will be called from
 // the same thread. DO NOT STORE SHARED DATA WITHOUT SYNCHRONIZATION.
 // Seriously. That's just a bad idea. It'll probably lead to hiesenbugs.
 // If you DO use synchronization, expect a huge dip in performance.
