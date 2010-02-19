@@ -12,5 +12,6 @@
 
 #include <algorithm>
 #include <numeric>
+#include <exception>
 
 #include <ppl.h>

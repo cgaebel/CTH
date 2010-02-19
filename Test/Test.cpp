@@ -33,12 +33,24 @@ namespace Test
 
 	int TEST_API RunAllTests()
 	{
-		long testTime = TimeLambda([]{ RunTestsInParallel(tests); });
+		try
+		{
+			long testTime = TimeLambda([]{ RunTestsInParallel(tests); });
 
-		for_each_test(tests, PrintAllFailures);
+			for_each_test(tests, PrintAllFailures);
 
-		size_t numberOfFailedTests = GetNumberOfFailedTests(tests);
-		PrintSummary(tests, numberOfFailedTests, testTime);
-		return static_cast<int>(numberOfFailedTests);
+			size_t numberOfFailedTests = GetNumberOfFailedTests(tests);
+			PrintSummary(tests, numberOfFailedTests, testTime);
+			return static_cast<int>(numberOfFailedTests);
+		}
+		catch(...)
+		{
+			printf("%s",
+				"Unhandled exception occured in one of the tests!\n"
+				"Please re-run the tests in a debugger."
+			);
+
+			return -1;
+		}
 	}
 }

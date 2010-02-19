@@ -1,4 +1,7 @@
 #include "stdafx.h"
+#include <exception>
+#include <ppl.h>
+
 #include "TestRunner.h"
 #include "Types.h"
 
