@@ -104,33 +104,25 @@ namespace Test
 		} 0
 
 		#define CHECK_EQUAL(expected, actual)								\
-		{																	\
-			if(!::Test::CheckHelpers::AreEqual(expected, actual))			\
-				__testContext.AddFailure(__LINE__,							\
-					::Test::CheckHelpers::MakeErrorStringEqual(				\
-						expected, actual));									\
-		} 0
+			::Test::CheckHelpers::ProcessAreEqual(							\
+				__testContext, expected, actual, __LINE__)
 
 		#define ASSERT_EQUAL(expected, actual)								\
 		{																	\
-			if(!::Test::CheckHelpers::AreEqual(expected, actual))			\
-				TERMINATE_TEST(::Test::CheckHelpers::MakeErrorStringEqual(	\
-					expected, actual));										\
+			if(!::Test::CheckHelpers::ProcessAreEqual(						\
+				__testContext, expected, actual, __LINE__))					\
+					return;													\
 		} 0
 
 		#define CHECK_CLOSE(expected, actual, tolerance)					\
-		{																	\
-			if(!::Test::CheckHelpers::AreClose(expected, actual, tolerance))\
-				__testContext.AddFailure(__LINE__,							\
-					::Test::CheckHelpers::MakeErrorStringClose(				\
-						expected, actual, tolerance));						\
-		} 0
+			::Test::CheckHelpers::ProcessAreClose(							\
+				__testContext, expected, actual, tolerance, __LINE__)		\
 
 		#define ASSERT_CLOSE(expected, actual, tolerance)					\
 		{																	\
-			if(!::Test::CheckHelpers::AreClose(expected, actual, tolerance))\
-				TERMINATE_TEST(::Test::CheckHelpers::MakeErrorStringClose(	\
-					expected, actual, tolerance));							\
+			if(!::Test::CheckHelpers::ProcessAreClose(						\
+				__testContext, expected, actual, tolerance, __LINE__))		\
+					return;													\
 		} 0
 
 		#define CHECK_NULL(pointer)											\
@@ -159,6 +151,12 @@ namespace Test
 				TERMINATE_TEST(#pointer " is NULL.");						\
 		} 0
 	}
+
+	class TEST_API TestContext abstract
+	{
+	public:
+		virtual void AddFailure(int lineNumber, const std::string& message) = 0;
+	};
 
 	namespace CheckHelpers
 	{
@@ -205,13 +203,32 @@ namespace Test
 				<< " but was " << actual;
 			return out.str();
 		}
-	}
 
-	class TEST_API TestContext abstract
-	{
-	public:
-		virtual void AddFailure(int lineNumber, const std::string& message) = 0;
-	};
+		// The follow two functions return true if we are to continue the test, false if we don't.
+		template <typename T1, typename T2>
+		bool ProcessAreEqual(TestContext& context, T1 expected, T2 actual, int lineNumber)
+		{
+			if(!AreEqual(expected, actual))
+			{
+				context.AddFailure(lineNumber, MakeErrorStringEqual(expected, actual));
+				return false;
+			}
+
+			return true;
+		}
+
+		template <typename T1, typename T2, typename T3>
+		bool ProcessAreClose(TestContext& context, T1 expected, T2 actual, T3 tolerance, int lineNumber)
+		{
+			if(!AreClose(expected, actual, tolerance))
+			{
+				context.AddFailure(lineNumber, MakeErrorStringClose(expected, actual, tolerance));
+				return false;
+			}
+
+			return true;
+		}
+	}
 
 	const int TEST_API AddToGlobalTestList(
 		const char* testName,
