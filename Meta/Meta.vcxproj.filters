@@ -15,6 +15,9 @@
     <ClCompile Include="S02.cpp">
       <Filter>Tests\CCC2008</Filter>
     </ClCompile>
+    <ClCompile Include="S03.cpp">
+      <Filter>Tests\CCC2008</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Tests">

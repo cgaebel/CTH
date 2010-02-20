@@ -44,13 +44,12 @@ namespace S02
 		
 		// Count the dots in the upper-right quadrant.
 		Point p;
-
 		for(p.x = 0; p.x <= r; ++p.x)
 			for(p.y = 0; p.y <= r; ++p.y)
 				if(IsInCircle(p, r))
 					++dotsInUpperRightQuadrant;
 
-		// Prove it yourself you lazy bastard =P
+		// Derive it yourself you lazy bastard =P
 		return 4 * (dotsInUpperRightQuadrant - r) - 3;
 	}
 }
