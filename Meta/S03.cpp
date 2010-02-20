@@ -29,13 +29,16 @@ namespace S03
 			arr[i] = new int[y];
 	}
 
-	static void InitializeDPArray(int** arr, int x, int y)
+	static void InitializeDPArray(const char** input, int** arr, int x, int y)
 	{
 		for(int i = 0; i < x; ++i)
 			for(int j = 0; j < y; ++j)
 				arr[i][j] = positiveInfinity;
 
-		arr[x - 1][y - 1] = 1;
+		if(input[x - 1][y - 1] != '*')
+			arr[x - 1][y - 1] = 1;
+		else
+			arr[x - 1][y - 1] = positiveInfinity;
 	}
 
 	static void CleanUpDPArray(int**& arr, int x, int y)
@@ -160,7 +163,7 @@ namespace S03
 		int** dpArray;
 
 		BuildDPArray(dpArray, x, y);
-		InitializeDPArray(dpArray, x, y);
+		InitializeDPArray(input, dpArray, x, y);
 
 		int solution = GetSolution(input, dpArray, x, y);
 
@@ -198,6 +201,16 @@ TEST(SampleTests)
 
 		CHECK_EQUAL(-1, S03::Solve(testData, 3, 5));
 	}
+}
+
+TEST(EntryPointIsUnpassable)
+{
+	const char* testData[2] = {
+		"++",
+		"+*"
+	};
+
+	CHECK_EQUAL(-1, S03::Solve(testData, 2, 2));
 }
 
 TEST(HugeMap)
